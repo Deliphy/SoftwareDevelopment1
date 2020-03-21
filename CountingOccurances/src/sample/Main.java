@@ -1,22 +1,20 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.*;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 
 
@@ -26,8 +24,11 @@ public class Main extends Application {
     Stage window;
     Scene scene;
     Button button;
+    Document doc;
+    String htmlString;
 
     String url = ("http://shakespeare.mit.edu/macbeth/full.html");
+    //String url = ("https://www.york.ac.uk/teaching/cws/wws/webpage1.html");
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -88,21 +89,32 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void OccurrenceCounter(String url)
+
+
+
+    /*
+    public static docStringer(String url){
+        Document doc = Jsoup.connnect(url).get();
+    }
+    */
+    public void OccurrenceCounter(String url)
     {
-
-
-
-        Document doc;
         try {
             //Get Document object after parsing the html from given url.
-            doc = Jsoup.connect(url).get();
+           // doc = Jsoup.connect(url).get();
+            //htmlString = doc.toString();
+            htmlString = stringUtil.docToString(url);
 
-            String htmlString = doc.toString();
+            System.out.println(htmlString);
 
-            htmlString = html2text(htmlString);
+            htmlString = stringUtil.html2text(htmlString);
 
-            htmlString = stringCleaner(htmlString);
+            System.out.println("html2Text");
+            System.out.println(htmlString);
+
+            htmlString = stringUtil.stringCleaner(htmlString);
+            System.out.println("stringCleaner");
+            System.out.println(htmlString);
 
             String split[] = htmlString.split(" ");
 
@@ -146,19 +158,32 @@ public class Main extends Application {
     }
 
 
+    public static class stringUtil{
 
-    public static String html2text(String html)
-    {
-        return Jsoup.parse(html).text();
+        public static String html2text(String html)
+        {
+            return Jsoup.parse(html).text();
+        }
+
+        public static String stringCleaner(String inputString)
+        {
+            return inputString
+                    .toLowerCase()
+                    .replaceAll("[^a-zA-Z ]", "")
+                    .replaceAll("\\<.*?\\>", "")
+                    .replaceAll("\\.","")
+                    .trim();
+        }
+
+        public static String docToString(String url) throws IOException {
+            Document doc = Jsoup.connect(url).get();
+            return doc.toString();
+        }
+
     }
 
-    public static String stringCleaner(String inputString)
-    {
-        return inputString
-                .toLowerCase()
-                .replaceAll("[^a-zA-Z ]", "")
-                .replaceAll("\\<.*?\\>", "")
-                .replaceAll("\\.","")
-                .trim();
-    }
+
+
+
+
 }
