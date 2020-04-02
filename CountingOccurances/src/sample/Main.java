@@ -17,9 +17,24 @@ import java.io.PrintStream;
 import java.util.*;
 
 
-
+/**
+ * The CountingOccurances program takes a website URL as input
+ * and prints out the top 20 most used words on that website.
+ *
+ * @author Bruen
+ * @version 1.0
+ * @since 2020-04-01
+ */
 
 public class Main extends Application {
+    /**
+     * The CountingOccurances program takes a website URL as input
+     * and prints out the top 20 most used words on that website.
+     *
+     * @author Bruen
+     * @version 1.0
+     * @since 2020-04-01
+     */
 
     Stage window;
     Scene scene;
